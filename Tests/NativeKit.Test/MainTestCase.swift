@@ -1,5 +1,5 @@
 import XCTest
-@testable import ColorKit
+@testable import NativeKit
 
 // Type: MainTestCase
 

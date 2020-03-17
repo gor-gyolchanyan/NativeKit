@@ -3,8 +3,8 @@
 // Licensing information can be found in the `LICENSE` file located in the root directory of this repository.
 //
 
-// Type: NativeNavigationController
+// Type: NativeCollectionViewCell
 
 #if os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS) || os(watchOS)
-    public typealias NativeNavigationController = UINavigationController
+    public typealias NativeCollectionViewCell = UICollectionViewCell
 #endif
