@@ -4,7 +4,6 @@
 //
 
 #if os(macOS) || os(iOS) || os(tvOS)
-    @available(macOS 10.0, macCatalyst 13.0, iOS 2.0, tvOS 9.0, *)
     extension NKWindow {
 
         // Exposed

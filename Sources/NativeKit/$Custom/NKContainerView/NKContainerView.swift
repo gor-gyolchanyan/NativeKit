@@ -3,9 +3,7 @@
 // Licensing information can be found in the `LICENSE` file located in the root directory of this repository.
 //
 
-import NativeKit
-
-#if os(iOS)
+#if os(macOS) && targetEnvironment(macCatalyst) || os(iOS)
     import UIKit
 
     // Exposed
@@ -32,7 +30,6 @@ import NativeKit
             _contentViewInsideTapGestureRecognizer = .init()
             _contentView = .init()
             _visibleAreaLayoutGuide = .init()
-            _statusBarOverlayView = .init()
             _visibleAreaLayoutGuideConstraintArray = .init()
             _paddingViewSizeConstraintArray = .init()
             super.init()
@@ -67,16 +64,6 @@ import NativeKit
             _contentViewInsideTapGestureRecognizer.addTarget(self, action: #selector(_didTapInsideContentView))
             _contentView.addGestureRecognizer(_contentViewInsideTapGestureRecognizer)
             _contentView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(_statusBarOverlayView)
-            NSLayoutConstraint.activate([
-                _statusBarOverlayView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                trailingAnchor.constraint(equalTo: _statusBarOverlayView.trailingAnchor),
-                _statusBarOverlayView.topAnchor.constraint(equalTo: topAnchor),
-                safeAreaLayoutGuide.topAnchor.constraint(equalTo: _statusBarOverlayView.bottomAnchor),
-            ])
-            _statusBarOverlayView.isHidden = true
-            _statusBarOverlayView.effect = UIBlurEffect(style: .systemUltraThinMaterial)
-            _statusBarOverlayView.translatesAutoresizingMaskIntoConstraints = false
             addLayoutGuide(_visibleAreaLayoutGuide)
             _visibleAreaLayoutGuideConstraintArray = [
                 _visibleAreaLayoutGuide.leftAnchor.constraint(equalTo: safeAreaWithoutKeyboardLayoutGuide.leftAnchor),
@@ -132,7 +119,6 @@ import NativeKit
         private let _contentViewInsideTapGestureRecognizer: UITapGestureRecognizer
         private let _contentView: NKView
         private let _visibleAreaLayoutGuide: NKLayoutGuide
-        private let _statusBarOverlayView: NKVisualEffectView
         private var _visibleAreaLayoutGuideConstraintArray: [NSLayoutConstraint]
         private var _paddingViewSizeConstraintArray: [NSLayoutConstraint]
     }
@@ -150,16 +136,6 @@ import NativeKit
 
         public var visibleAreaLayoutGuide: NKLayoutGuide {
             _visibleAreaLayoutGuide
-        }
-
-        public var doesDisplayStatusBarOverlay: Bool {
-            get {
-                !_statusBarOverlayView.isHidden
-            }
-
-            set(doesDisplayStatusBarOverlay) {
-                _statusBarOverlayView.isHidden = !doesDisplayStatusBarOverlay
-            }
         }
 
         public var visibleAreaInsets: NKEdgeInsets {

@@ -3,10 +3,8 @@
 // Licensing information can be found in the `LICENSE` file located in the root directory of this repository.
 //
 
-import Combine
-import NativeKit
-
-#if os(iOS)
+#if os(macOS) && targetEnvironment(macCatalyst) || os(iOS)
+    import Combine
     import UIKit
 
     extension NKView {

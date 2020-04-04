@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.9, *)
     public typealias NKStackView = AppKit.NSStackView
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 9.0, tvOS 9.0, *)
     public typealias NKStackView = UIKit.UIStackView
 #endif

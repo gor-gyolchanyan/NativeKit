@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.11, *)
     public typealias NKLayoutGuide = AppKit.NSLayoutGuide
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 9.0, tvOS 9.0, *)
     public typealias NKLayoutGuide = UIKit.UILayoutGuide
 #endif

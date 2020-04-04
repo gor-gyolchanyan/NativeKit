@@ -13,11 +13,9 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.6, *)
     public typealias NKApplicationDelegate = AppKit.NSApplicationDelegate
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 2.0, tvOS 9.0, *)
     public typealias NKApplicationDelegate = UIKit.UIApplicationDelegate
 #endif
 

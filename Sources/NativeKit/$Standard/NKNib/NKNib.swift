@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.3, *)
     public typealias NKNib = AppKit.NSNib
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 4.0, tvOS 9.0, *)
     public typealias NKNib = UIKit.UINib
 #endif

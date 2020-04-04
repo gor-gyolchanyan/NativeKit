@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.0, *)
     public typealias NKColor = AppKit.NSColor
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS) || os(watchOS)
     ///
-    @available(macCatalyst 13.0, iOS 2.0, tvOS 9.0, watchOS 2.0, *)
     public typealias NKColor = UIKit.UIColor
 #endif

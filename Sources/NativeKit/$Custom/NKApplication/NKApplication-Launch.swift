@@ -10,7 +10,6 @@
 #endif
 
 #if os(macOS) || os(iOS) || os(tvOS)
-    @available(macOS 10.9, macCatalyst 13.0, iOS 2.0, tvOS 9.0, *)
     extension NKApplication {
 
         // Exposed

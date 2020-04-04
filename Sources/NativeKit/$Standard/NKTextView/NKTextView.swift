@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.0, *)
     public typealias NKTextView = AppKit.NSTextView
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 2.0, tvOS 9.0, *)
     public typealias NKTextView = UIKit.UITextView
 #endif

@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.15, *)
     public typealias NKSwitch = AppKit.NSSwitch
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS)
     ///
-    @available(macCatalyst 13.0, iOS 2.0, *)
     public typealias NKSwitch = UIKit.UISwitch
 #endif

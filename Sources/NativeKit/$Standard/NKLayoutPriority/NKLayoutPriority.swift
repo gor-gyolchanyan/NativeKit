@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.7, *)
-    public typealias NKLayoutPriority = AppKit.NSLayoutPriority
+    public typealias NKLayoutPriority = AppKit.NSLayoutConstraint.Priority
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 6.0, tvOS 9.0, *)
     public typealias NKLayoutPriority = UIKit.UILayoutPriority
 #endif

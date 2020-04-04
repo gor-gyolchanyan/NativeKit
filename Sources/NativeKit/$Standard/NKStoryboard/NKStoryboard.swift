@@ -13,10 +13,8 @@
 
 #if os(macOS) && !targetEnvironment(macCatalyst)
     ///
-    @available(macOS 10.10, *)
     public typealias NKStoryboard = AppKit.NSStoryboard
 #elseif os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     ///
-    @available(macCatalyst 13.0, iOS 5.0, tvOS 9.0, *)
     public typealias NKStoryboard = UIKit.UIStoryboard
 #endif
