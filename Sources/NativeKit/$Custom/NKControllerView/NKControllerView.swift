@@ -4,7 +4,6 @@
 //
 
 #if os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
-
     // Exposed
 
     ///
