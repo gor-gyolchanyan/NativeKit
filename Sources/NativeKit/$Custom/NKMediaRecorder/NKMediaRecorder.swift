@@ -25,21 +25,14 @@
 
         init(
             captureSession: CaptureSession,
-            audioCaptureDevice: CaptureDevice,
-            audioCaptureDeviceInput: CaptureDeviceInput,
-            videoCaptureDevice: CaptureDevice,
-            videoCaptureDeviceInput: CaptureDeviceInput,
             mediaFile: URL,
             mediaFileOutput: CaptureMediaFileOutput
         ) {
             self.captureSession = captureSession
-            self.audioCaptureDevice = audioCaptureDevice
-            self.audioCaptureDeviceInput = audioCaptureDeviceInput
-            self.videoCaptureDevice = videoCaptureDevice
-            self.videoCaptureDeviceInput = videoCaptureDeviceInput
             self.mediaFile = mediaFile
             self.mediaFileOutput = mediaFileOutput
-
+            self.audioCaptureDeviceInput = nil
+            self.videoCaptureDeviceInput = nil
             onStartRecording = nil
             onStopRecording = nil
 
@@ -53,11 +46,10 @@
         lazy var agent = Agent(self)
 
         let captureSession: CaptureSession
-        let videoCaptureDevice: CaptureDevice
-        let videoCaptureDeviceInput: CaptureDeviceInput
-        let audioCaptureDevice: CaptureDevice
-        let audioCaptureDeviceInput: CaptureDeviceInput
         let mediaFileOutput: CaptureMediaFileOutput
+
+        var videoCaptureDeviceInput: CaptureDeviceInput?
+        var audioCaptureDeviceInput: CaptureDeviceInput?
 
         var onStartRecording: ((OperationError?) -> Void)?
         var onStopRecording: ((OperationError?) -> Void)?

@@ -13,6 +13,27 @@
         // Type: NKMediaRecorder
         // Topic: Operation
 
+        ///
+        public enum Content {
+
+            // Exposed
+
+            // Type: NKMediaRecorder.Content
+            // Topic: Main
+
+            ///
+            case none
+
+            ///
+            case audioOnly
+
+            ///
+            case videoOnly
+
+            ///
+            case audioAndVideo
+        }
+
         /// Determines whether or not capturing is in progress.
         public var isCapturing: Bool {
             captureSession.isRunning
@@ -23,30 +44,38 @@
             mediaFileOutput.isRecording
         }
 
-        /// Determines whether or not audio recording is enabled.
-        public var isAudioEnabled: Bool {
+        public var content: Content {
             get {
-                audioCaptureDeviceInput.ports.allSatisfy(\.isEnabled)
-            }
-
-            set(isAudioEnabled) {
-                captureSession.beginConfiguration()
-                audioCaptureDeviceInput.ports.forEach { $0.isEnabled = isAudioEnabled }
-                captureSession.commitConfiguration()
+                switch (audioCaptureDeviceInput != nil, videoCaptureDeviceInput != nil) {
+                    case (false, false):
+                        return .none
+                    case (false, true):
+                        return .videoOnly
+                    case (true, false):
+                        return .audioOnly
+                    case (true, true):
+                        return .audioAndVideo
+                }
             }
         }
 
-        /// Determines whether or not video recording is enabled.
-        public var isVideoEnabled: Bool {
-            get {
-                videoCaptureDeviceInput.ports.allSatisfy(\.isEnabled)
+        public func setContent(_ content: Content) throws {
+            captureSession.beginConfiguration()
+            switch content {
+                case .none:
+                    uninstallAudioCaptureDeviceInput()
+                    uninstallVideoCaptureDeviceInput()
+                case .audioOnly:
+                    try installAudioCaptureDeviceInput()
+                    uninstallVideoCaptureDeviceInput()
+                case .videoOnly:
+                    uninstallAudioCaptureDeviceInput()
+                    try installVideoCaptureDeviceInput()
+                case .audioAndVideo:
+                    try installAudioCaptureDeviceInput()
+                    try installVideoCaptureDeviceInput()
             }
-
-            set(isVideoEnabled) {
-                captureSession.beginConfiguration()
-                videoCaptureDeviceInput.ports.forEach { $0.isEnabled = isVideoEnabled }
-                captureSession.commitConfiguration()
-            }
+            captureSession.commitConfiguration()
         }
 
         /// Start capturing content from the input devices.
@@ -108,6 +137,70 @@
 
         // Type: NKMediaRecorder
         // Topic: Operation
+
+        func installAudioCaptureDeviceInput() throws {
+            guard self.audioCaptureDeviceInput == nil else {
+                return
+            }
+
+            guard let audioCaptureDevice = Self.makeAudioCaptureDevice() else {
+                throw NKMediaRecorder.CreationError.missingAudioInput
+            }
+
+            let audioCaptureDeviceInput: AVCaptureDeviceInput
+            do {
+                try audioCaptureDeviceInput = Self.makeAudioCaptureDeviceInput(device: audioCaptureDevice)
+            } catch {
+                throw NKMediaRecorder.CreationError.unreadableAudioInput(error)
+            }
+
+            guard captureSession.canAddInput(audioCaptureDeviceInput) else {
+                throw NKMediaRecorder.CreationError.unusableAudioInput
+            }
+            captureSession.addInput(audioCaptureDeviceInput)
+
+            self.audioCaptureDeviceInput = audioCaptureDeviceInput
+        }
+
+        func installVideoCaptureDeviceInput() throws {
+            guard self.videoCaptureDeviceInput == nil else {
+                return
+            }
+
+            guard let videoCaptureDevice = Self.makeVideoCaptureDevice() else {
+                throw NKMediaRecorder.CreationError.missingVideoInput
+            }
+
+            let videoCaptureDeviceInput: AVCaptureDeviceInput
+            do {
+                try videoCaptureDeviceInput = Self.makeVideoCaptureDeviceInput(device: videoCaptureDevice)
+            } catch {
+                throw NKMediaRecorder.CreationError.unreadableVideoInput(error)
+            }
+
+            guard captureSession.canAddInput(videoCaptureDeviceInput) else {
+                throw NKMediaRecorder.CreationError.unusableVideoInput
+            }
+            captureSession.addInput(videoCaptureDeviceInput)
+
+            self.videoCaptureDeviceInput = videoCaptureDeviceInput
+        }
+
+        func uninstallAudioCaptureDeviceInput() {
+            guard let audioCaptureDeviceInput = self.audioCaptureDeviceInput else {
+                return
+            }
+            captureSession.removeInput(audioCaptureDeviceInput)
+            self.audioCaptureDeviceInput = nil
+        }
+
+        func uninstallVideoCaptureDeviceInput() {
+            guard let videoCaptureDeviceInput = self.videoCaptureDeviceInput else {
+                return
+            }
+            captureSession.removeInput(videoCaptureDeviceInput)
+            self.videoCaptureDeviceInput = nil
+        }
 
         class func configureAudioSession() -> OperationError? {
             #if os(macOS) && targetEnvironment(macCatalyst) || os(iOS)

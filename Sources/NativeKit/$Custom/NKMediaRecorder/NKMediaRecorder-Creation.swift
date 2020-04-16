@@ -19,38 +19,6 @@
         public convenience init(mediaFile: URL) throws {
             let captureSession = Self.makeCaptureSession()
 
-            guard let audioCaptureDevice = Self.makeAudioCaptureDevice() else {
-                throw NKMediaRecorder.CreationError.missingAudioInput
-            }
-
-            let audioCaptureDeviceInput: AVCaptureDeviceInput
-            do {
-                try audioCaptureDeviceInput = Self.makeAudioCaptureDeviceInput(device: audioCaptureDevice)
-            } catch {
-                throw NKMediaRecorder.CreationError.unreadableAudioInput(error)
-            }
-
-            guard captureSession.canAddInput(audioCaptureDeviceInput) else {
-                throw NKMediaRecorder.CreationError.unusableAudioInput
-            }
-            captureSession.addInput(audioCaptureDeviceInput)
-
-            guard let videoCaptureDevice = Self.makeVideoCaptureDevice() else {
-                throw NKMediaRecorder.CreationError.missingVideoInput
-            }
-
-            let videoCaptureDeviceInput: AVCaptureDeviceInput
-            do {
-                try videoCaptureDeviceInput = Self.makeVideoCaptureDeviceInput(device: videoCaptureDevice)
-            } catch {
-                throw NKMediaRecorder.CreationError.unreadableVideoInput(error)
-            }
-
-            guard captureSession.canAddInput(videoCaptureDeviceInput) else {
-                throw NKMediaRecorder.CreationError.unusableVideoInput
-            }
-            captureSession.addInput(videoCaptureDeviceInput)
-
             let mediaFileOutput = Self.makeMediaFileOutput()
 
             guard captureSession.canAddOutput(mediaFileOutput) else {
@@ -60,10 +28,6 @@
 
             self.init(
                 captureSession: captureSession,
-                audioCaptureDevice: audioCaptureDevice,
-                audioCaptureDeviceInput: audioCaptureDeviceInput,
-                videoCaptureDevice: videoCaptureDevice,
-                videoCaptureDeviceInput: videoCaptureDeviceInput,
                 mediaFile: mediaFile,
                 mediaFileOutput: mediaFileOutput
             )

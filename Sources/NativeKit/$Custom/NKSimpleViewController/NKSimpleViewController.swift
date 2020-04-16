@@ -55,7 +55,7 @@
         // Topic: Managing The View
 
         open override func loadView() {
-            super.view = NKView()
+            super.nkView = NKView()
         }
 
         // Protocol: Foundation.NSCoding
