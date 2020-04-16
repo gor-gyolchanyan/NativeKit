@@ -3,7 +3,7 @@
 // Licensing information can be found in the `LICENSE` file located in the root directory of this repository.
 //
 
-#if os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvoS)
+#if os(macOS) && targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
     // Exposed
 
     ///
