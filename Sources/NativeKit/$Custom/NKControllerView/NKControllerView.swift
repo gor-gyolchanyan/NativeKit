@@ -72,7 +72,7 @@
 
         let _innerViewLayout: NKEmbeddingLayout
 
-        var _outerViewController: OuterViewController?
+        weak var _outerViewController: OuterViewController?
 
         var _innerViewController: InnerViewController?
     }
